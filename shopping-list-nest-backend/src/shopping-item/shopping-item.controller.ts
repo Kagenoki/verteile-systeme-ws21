@@ -4,31 +4,37 @@ import { CreateShoppingItemDto } from './dto/create-shopping-item.dto';
 import { UpdateShoppingItemDto } from './dto/update-shopping-item.dto';
 
 @Controller('shopping-item')
-export class ShoppingItemController {
-  constructor(private readonly shoppingItemService: ShoppingItemService) {}
+export class ShoppingItemController
+{
+  constructor(private readonly shoppingItemService: ShoppingItemService) { }
 
   @Post()
-  create(@Body() createShoppingItemDto: CreateShoppingItemDto) {
+  create(@Body() createShoppingItemDto: CreateShoppingItemDto)
+  {
     return this.shoppingItemService.create(createShoppingItemDto);
   }
 
   @Get()
-  findAll() {
+  findAll()
+  {
     return this.shoppingItemService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string)
+  {
     return this.shoppingItemService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShoppingItemDto: UpdateShoppingItemDto) {
+  update(@Param('id') id: string, @Body() updateShoppingItemDto: UpdateShoppingItemDto)
+  {
     return this.shoppingItemService.update(+id, updateShoppingItemDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string)
+  {
     return this.shoppingItemService.remove(+id);
   }
 }
