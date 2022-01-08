@@ -1,7 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Connection, getConnection, QueryRunner } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Connection, getConnection, QueryRunner, Repository } from 'typeorm';
 import { CreateShoppingItemDto } from './dto/create-shopping-item.dto';
 import { UpdateShoppingItemDto } from './dto/update-shopping-item.dto';
+import { ShoppingItem } from './entities/shopping-item.entity';
 
 @Injectable()
 export class ShoppingItemService
@@ -10,24 +12,17 @@ export class ShoppingItemService
   constructor
     (
       private readonly connection: Connection,
-    // @InjectRepository(transactionalbookingdata) private readonly _transactionalbookingdata: Repository<transactionalbookingdata>
-  ) { }
+      @InjectRepository(ShoppingItem) private readonly shoppingItem: Repository<ShoppingItem>
+    ) { }
 
-  create(createShoppingItemDto: CreateShoppingItemDto)
+  async create(createShoppingItemDto: CreateShoppingItemDto)
   {
-
-    return 'This action adds a new shoppingItem';
+    return await this.addToDB(createShoppingItemDto, (await this.connectQueryDb()));
   }
 
   async findAll()
   {
-    // return await this.publisherRepository.find({
-    //   order: {
-    //     publisherName: "ASC",
-    //     publisherDate: "ASC",
-    //     publisherId: "ASC"
-    //   },
-    // });
+    return await this.shoppingItem.find();
   }
 
   async findOne(id: number)
@@ -59,19 +54,24 @@ export class ShoppingItemService
     // return await this.publisherRepository.delete(id);
   }
 
-  async addToDB(createShoppingItemDto: CreateShoppingItemDto, queryRunner: QueryRunner): Promise<any>
+  async addToDB(createShoppingItemDto: CreateShoppingItemDto, queryRunner: QueryRunner): Promise<ShoppingItem>
   {
+    const item = new ShoppingItem();
+    item.name = createShoppingItemDto.name;
+    item.quantity = createShoppingItemDto.quantity
+    if (createShoppingItemDto.creationDate == undefined)
+      item.creationDate = new Date(Date.now());
+    else
+      item.creationDate = createShoppingItemDto.creationDate;
+    item.shoppingDone = createShoppingItemDto.shoppingDone;
     try
     {
-      // createCsvDto.forEach(async (singleCreateCsvDto) =>
-      // {
       await this.connection.transaction(async manager =>
       {
-        // await manager.save();
+        await manager.save(item);
       });
-      // await queryRunner.manager.save(finCsv);
+      // await queryRunner.manager.save(item);
       await queryRunner.commitTransaction();
-      // });
     } catch (err)
     {
       // since we have errors lets rollback the changes we made
@@ -81,7 +81,7 @@ export class ShoppingItemService
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
-    return null;
+    return item;
   }
 
   async connectQueryDb(): Promise<QueryRunner>
@@ -91,5 +91,4 @@ export class ShoppingItemService
     await queryRunner.startTransaction();
     return queryRunner;
   }
-
 }

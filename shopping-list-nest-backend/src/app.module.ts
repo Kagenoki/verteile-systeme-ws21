@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ShoppingItemModule } from './shopping-item/shopping-item.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config as dotenvInit } from 'dotenv'
+import { ShoppingItem } from './shopping-item/entities/shopping-item.entity';
 dotenvInit();
 
 @Module({
@@ -17,16 +18,18 @@ dotenvInit();
       database: process.env.POSTGRES_DB,
 
       entities: [
+        ShoppingItem,
         // '**/*.entity{.ts,.js}'
       ],
+      synchronize: true,
 
-      migrationsTableName: 'migration',
+      // migrationsTableName: 'migration',
 
-      migrations: ['src/migration/*.ts'],
+      // migrations: ['src/migration/*.ts'],
 
-      cli: {
-        migrationsDir: 'src/migration',
-      },
+      // cli: {
+      //   migrationsDir: 'src/migration',
+      // },
 
       // ssl: this.isProduction(),
     })

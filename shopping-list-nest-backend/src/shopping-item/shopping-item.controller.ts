@@ -3,7 +3,7 @@ import { ShoppingItemService } from './shopping-item.service';
 import { CreateShoppingItemDto } from './dto/create-shopping-item.dto';
 import { UpdateShoppingItemDto } from './dto/update-shopping-item.dto';
 
-@Controller('shopping-item')
+@Controller('items')
 export class ShoppingItemController
 {
   constructor(private readonly shoppingItemService: ShoppingItemService) { }
