@@ -5,6 +5,9 @@ import {Entity} from 'typeorm';
 @Entity()
 export class ShoppingItem {
 
+    @PrimaryGeneratedColumn()
+    id: number
+    
     @Column()
     name: string;
 
