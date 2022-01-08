@@ -5,4 +5,15 @@ import {Entity} from 'typeorm';
 @Entity()
 export class ShoppingItem {
 
+    @Column()
+    name: string;
+
+    @Column()
+    quantity: number;
+
+    @Column()
+    creationDate: Date;
+
+    @Column()
+    shoppingDone: boolean;
 }
