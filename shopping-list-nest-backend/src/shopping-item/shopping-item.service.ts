@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Connection, QueryRunner } from 'typeorm';
+import { Connection, getConnection, QueryRunner } from 'typeorm';
 import { CreateShoppingItemDto } from './dto/create-shopping-item.dto';
 import { UpdateShoppingItemDto } from './dto/update-shopping-item.dto';
 
@@ -19,24 +19,44 @@ export class ShoppingItemService
     return 'This action adds a new shoppingItem';
   }
 
-  findAll()
+  async findAll()
   {
-    return `This action returns all shoppingItem`;
+    // return await this.publisherRepository.find({
+    //   order: {
+    //     publisherName: "ASC",
+    //     publisherDate: "ASC",
+    //     publisherId: "ASC"
+    //   },
+    // });
   }
 
-  findOne(id: number)
+  async findOne(id: number)
   {
-    return `This action returns a #${id} shoppingItem`;
+    // return await this.publisherRepository.findOne(id);
   }
 
-  update(id: number, updateShoppingItemDto: UpdateShoppingItemDto)
+  async update(id: number, updateShoppingItemDto: UpdateShoppingItemDto)
   {
+    // let pub = await this.findOne(id);
+    // let pub = new Publisher();
+    // pub.publisherId = id;
+    // if (updateShoppingItemDto.publisherDate)
+    // pub.publisherDate = updateShoppingItemDto.publisherDate;
+    // if (updateShoppingItemDto.publisherName)
+    // pub.publisherName = updateShoppingItemDto.publisherName;
+
+    await getConnection()
+    // .createQueryBuilder()
+    // .update(Publisher)
+    // .set({ publisherName: pub.publisherName, publisherDate: pub.publisherDate })
+    // .where("publisherId = :publisherId", { publisherId: pub.publisherId })
+    // .execute();
     return `This action updates a #${id} shoppingItem`;
   }
 
-  remove(id: number)
+  async remove(id: number)
   {
-    return `This action removes a #${id} shoppingItem`;
+    // return await this.publisherRepository.delete(id);
   }
 
   async addToDB(createShoppingItemDto: CreateShoppingItemDto, queryRunner: QueryRunner): Promise<any>

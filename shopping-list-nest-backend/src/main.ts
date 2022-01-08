@@ -11,8 +11,6 @@ const PORT: number = parseInt(process.env.PORT) || 3000;
 async function bootstrap()
 {
   const app = await NestFactory.create(AppModule);
-
-
   const config = new DocumentBuilder()
     .setTitle('Shopping List')
     .setDescription('Api description for shopping list')
@@ -21,7 +19,7 @@ async function bootstrap()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  
+
   await app.listen(PORT, () =>
   {
     logger.log(`Server running on Port: ${PORT}`);
