@@ -15,43 +15,46 @@ export class ShoppingItemService
       @InjectRepository(ShoppingItem) private readonly shoppingItem: Repository<ShoppingItem>
     ) { }
 
-  async create(createShoppingItemDto: CreateShoppingItemDto)
+  async create(createShoppingItemDto: CreateShoppingItemDto): Promise<ShoppingItem>
   {
     return await this.addToDB(createShoppingItemDto, (await this.connectQueryDb()));
   }
 
-  async findAll()
+  async findAll(): Promise<ShoppingItem[]>
   {
     return await this.shoppingItem.find();
   }
 
-  async findOne(id: number)
+  async findOne(id: number): Promise<ShoppingItem>
   {
-    // return await this.publisherRepository.findOne(id);
+    return await this.shoppingItem.findOne(id);
   }
 
-  async update(id: number, updateShoppingItemDto: UpdateShoppingItemDto)
+  async update(id: number, updateShoppingItemDto: UpdateShoppingItemDto): Promise<ShoppingItem>
   {
-    // let pub = await this.findOne(id);
-    // let pub = new Publisher();
-    // pub.publisherId = id;
-    // if (updateShoppingItemDto.publisherDate)
-    // pub.publisherDate = updateShoppingItemDto.publisherDate;
-    // if (updateShoppingItemDto.publisherName)
-    // pub.publisherName = updateShoppingItemDto.publisherName;
+    const item = await this.findOne(id);
+    item.id = id;
+    if (updateShoppingItemDto.name)
+      item.name = updateShoppingItemDto.name;
+    if (updateShoppingItemDto.quantity)
+      item.quantity = updateShoppingItemDto.quantity;
+    if (updateShoppingItemDto.creationDate)
+      item.creationDate = updateShoppingItemDto.creationDate;
+    if (updateShoppingItemDto.shoppingDone)
+      item.shoppingDone = updateShoppingItemDto.shoppingDone;
 
     await getConnection()
-    // .createQueryBuilder()
-    // .update(Publisher)
-    // .set({ publisherName: pub.publisherName, publisherDate: pub.publisherDate })
-    // .where("publisherId = :publisherId", { publisherId: pub.publisherId })
-    // .execute();
-    return `This action updates a #${id} shoppingItem`;
+      .createQueryBuilder()
+      .update(ShoppingItem)
+      .set({ name: item.name, quantity: item.quantity, creationDate: item.creationDate, shoppingDone: item.shoppingDone })
+      .where("id = :id", { id: item.id })
+      .execute();
+    return item;
   }
 
-  async remove(id: number)
+  async remove(id: number): Promise<any>
   {
-    // return await this.publisherRepository.delete(id);
+    return await this.shoppingItem.delete(id);
   }
 
   async addToDB(createShoppingItemDto: CreateShoppingItemDto, queryRunner: QueryRunner): Promise<ShoppingItem>
