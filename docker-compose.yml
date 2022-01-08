@@ -1,7 +1,18 @@
 version: "3.9"
 
 services:
-  # postgress-db:
+  postgress-db:
+    container_name: postgress-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: vs_User
+      POSTGRES_PASSWORD: vs_Password
+      POSTGRES_DB: vs_database
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
   nestjs:
     container_name: nestjs
     build:
@@ -20,8 +31,8 @@ services:
       NODE_ENV: development
       PORT: 3000
       DB_HOST: postgress-db
-      DB_USER: sa
-      DB_PASS: 980CD3Kk_
+      DB_USER: vs_User
+      DB_PASS: vs_Password
     ports:
       - 3000:3000
     depends_on:
