@@ -18,17 +18,17 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./shopping-list-nest-backend
-      target: development
-      # target: production
+      # target: development
+      target: production
     volumes:
       - ./shopping-list-nest-backend:/usr/src/app
       - /usr/src/app/node_modules
     # command: npm run dev
-    command: npm run debug
-    # command: npm run prod
+    # command: npm run debug
+    command: npm run prod
     environment: 
-      # NODE_ENV: production
-      NODE_ENV: development
+      NODE_ENV: production
+      # NODE_ENV: development
       PORT: 3000
       DB_PORT: 5432
       DB_HOST: postgress-db
