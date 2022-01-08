@@ -1,3 +1,4 @@
-.postgresdat/
-.postgresdat/*
-.postgresdat
+# .postgresdat/
+# .postgresdat/*
+# .postgresdat
+/postgresdat
