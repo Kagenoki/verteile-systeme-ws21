@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  # postgress-db:
+  nestjs:
+    container_name: nestjs
+    build:
+      dockerfile: Dockerfile
+      context: ./shopping-list-nest-backend
+      target: development
+      # target: production
+    volumes:
+      - ./shopping-list-nest-backend:/usr/src/app
+      - /usr/src/app/node_modules
+    # command: npm run dev
+    command: npm run debug
+    # command: npm run prod
+    environment: 
+      # NODE_ENV: production
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: postgress-db
+      DB_USER: sa
+      DB_PASS: 980CD3Kk_
+    ports:
+      - 3000:3000
+    depends_on:
+        - postgress-db
+    links: 
+        - postgress-db
