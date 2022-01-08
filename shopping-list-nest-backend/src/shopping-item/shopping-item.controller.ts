@@ -2,39 +2,40 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ShoppingItemService } from './shopping-item.service';
 import { CreateShoppingItemDto } from './dto/create-shopping-item.dto';
 import { UpdateShoppingItemDto } from './dto/update-shopping-item.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Items')
 @Controller('items')
 export class ShoppingItemController
 {
   constructor(private readonly shoppingItemService: ShoppingItemService) { }
 
   @Post()
-  create(@Body() createShoppingItemDto: CreateShoppingItemDto)
+  async create(@Body() createShoppingItemDto: CreateShoppingItemDto)
   {
-    return this.shoppingItemService.create(createShoppingItemDto);
+    return await this.shoppingItemService.create(createShoppingItemDto);
   }
 
   @Get()
-  findAll()
+  async findAll()
   {
-    return this.shoppingItemService.findAll();
+    return await this.shoppingItemService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string)
+  async findOne(@Param('id') id: string)
   {
-    return this.shoppingItemService.findOne(+id);
+    return await this.shoppingItemService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShoppingItemDto: UpdateShoppingItemDto)
+  async update(@Param('id') id: string, @Body() updateShoppingItemDto: UpdateShoppingItemDto)
   {
-    return this.shoppingItemService.update(+id, updateShoppingItemDto);
+    return await this.shoppingItemService.update(+id, updateShoppingItemDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string)
+  async remove(@Param('id') id: string)
   {
-    return this.shoppingItemService.remove(+id);
+    return await this.shoppingItemService.remove(+id);
   }
 }
