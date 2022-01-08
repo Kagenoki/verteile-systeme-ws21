@@ -30,11 +30,9 @@ services:
       # NODE_ENV: production
       NODE_ENV: development
       PORT: 3000
-      DB_PORT: 5432
       DB_HOST: postgress-db
       DB_USER: vs_User
       DB_PASS: vs_Password
-      POSTGRES_DB: vs_database
     ports:
       - 3000:3000
     depends_on:
