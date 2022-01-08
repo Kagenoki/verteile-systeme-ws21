@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ShoppingItemModule } from './shopping-item/shopping-item.module';
-import { config as dotenvInit } from 'dotenv'
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { config as dotenvInit } from 'dotenv'
 dotenvInit();
 
 @Module({
